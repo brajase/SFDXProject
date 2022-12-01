@@ -13,8 +13,11 @@ node {
 
     println 'KEY IS' 
     println JWT_KEY_CRED_ID
+    println 'User Name' 
     println HUB_ORG
+    println 'instance URL' 
     println SFDC_HOST
+    println 'ClientID' 
     println CONNECTED_APP_CONSUMER_KEY
 
 
@@ -26,7 +29,7 @@ node {
     withCredentials([file(credentialsId: JWT_KEY_CRED_ID, variable: 'jwt_key_file')]) {
         stage('Authorize DevHub') {            
 
-                rc = command "sfdx force:auth:jwt:grant --clientid ${CONNECTED_APP_CONSUMER_KEY} --username ${HUB_ORG} --jwtkeyfile \"${jwt_key_file}\" --setdefaultdevhubusername --instanceurl ${SFDC_HOST}"
+                rc = command "sfdx force:auth:jwt:grant --clientid ${CONNECTED_APP_CONSUMER_KEY} --username ${HUB_ORG} --jwtkeyfile \"${JWT_KEY_CRED_ID}\" --setdefaultdevhubusername --instanceurl ${SFDC_HOST}"
         }
             if (rc != 0) { error 'authorization failed' }
 
