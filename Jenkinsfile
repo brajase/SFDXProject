@@ -20,9 +20,11 @@ pipeline {
             steps {
                 echo 'Deploying....'
                 script{
-                    rc = command "sfdx force:auth:jwt:grant --clientid '3MVG9szVa2RxsqBYXscs6zhOGSsPG_Pmr3Ik2ceNuLNQLAIsGwRfJ96YGtZRmbC7W62DhZPzEc3t.4RpkElFq' --jwtkeyfile 'C:/MyApplications/Jenkins/keys/kaaladev2.PEM' --username 'chandar_bala@hotmail.com.shield' --instanceurl 'https://login.salesforce.com' --setdefaultusername"
-                    if (rc != 0) { error 'authorization failed' }
-                    println rc
+                   
+                        stdout = bat(returnStdout:true , script: "sfdx force:auth:jwt:grant --clientid '3MVG9szVa2RxsqBYXscs6zhOGSsPG_Pmr3Ik2ceNuLNQLAIsGwRfJ96YGtZRmbC7W62DhZPzEc3t.4RpkElFq' --jwtkeyfile 'C:/MyApplications/Jenkins/keys/kaaladev2.PEM' --username 'chandar_bala@hotmail.com.shield' --instanceurl 'https://login.salesforce.com' --setdefaultusername").trim()
+                        result = stdout.readLines().drop(1).join(" ")       
+                        return result
+                
                 }	
             }
         }
