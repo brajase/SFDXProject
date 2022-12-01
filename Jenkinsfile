@@ -26,14 +26,14 @@ node {
         checkout scm
     }
 
-withCredentials([certificate(aliasVariable: '', credentialsId: 'pkcs12', keystoreVariable: '', passwordVariable: '')]) {
+
         stage('Authorize DevHub') {            
 
-                rc = command "sfdx auth:username:login -u ${username} -p ${password} -a alias kaaladev --setdefaultdevhubusername --instanceurl ${SFDC_HOST}"
+                rc = command "sfdx force:auth:jwt:grant  --clientid 3MVG9szVa2RxsqBYXscs6zhOGSsPG_Pmr3Ik2ceNuLNQLAIsGwRfJ96YGtZRmbC7W62DhZPzEc3t.4RpkElFq --jwtkeyfile C:\MyApplications\Jenkins\keys\kaaladev2.PEM --username chandar_bala@hotmail.com.shield --instanceurl https://login.salesforce.com --setdefaultusername"
         }
             if (rc != 0) { error 'authorization failed' }
 
 			println rc	
-    }
+    
 }
 
