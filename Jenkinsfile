@@ -26,7 +26,7 @@ node {
         checkout scm
     }
 
-    withCredentials([file(credentialsId: JWT_KEY_CRED_ID, variable: 'jwt_key_file')]) {
+    withCredentials([file(credentialsId: 'a1304981-ba49-49c1-95a3-8ffc6e027449', variable: 'jwt_key_file')]) {
         stage('Authorize DevHub') {            
 
                 rc = command "sfdx force:auth:jwt:grant --clientid ${CONNECTED_APP_CONSUMER_KEY} --username ${HUB_ORG} --jwtkeyfile \"${jwt_key_file}\" --setdefaultdevhubusername --instanceurl ${SFDC_HOST}"
