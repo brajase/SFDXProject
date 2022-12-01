@@ -26,7 +26,7 @@ node {
         checkout scm
     }
 
-withCredentials([usernamePassword(credentialsId: 'daec421e-3459-43da-9c1b-c54c122fa21e', passwordVariable: 'password', usernameVariable: 'username')]) {
+withCredentials([certificate(aliasVariable: '', credentialsId: 'pkcs12', keystoreVariable: '', passwordVariable: '')]) {
         stage('Authorize DevHub') {            
 
                 rc = command "sfdx auth:username:login -u ${username} -p ${password} -a alias kaaladev --setdefaultdevhubusername --instanceurl ${SFDC_HOST}"
