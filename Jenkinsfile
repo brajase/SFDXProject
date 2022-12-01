@@ -26,10 +26,10 @@ node {
         checkout scm
     }
 
-   withCredentials([gitUsernamePassword(credentialsId: 'daec421e-3459-43da-9c1b-c54c122fa21e', gitToolName: 'Default')]) {
+withCredentials([usernamePassword(credentialsId: 'daec421e-3459-43da-9c1b-c54c122fa21e', passwordVariable: 'password', usernameVariable: 'username')]) {
         stage('Authorize DevHub') {            
 
-                rc = command "sfdx force:auth:jwt:grant --clientid ${CONNECTED_APP_CONSUMER_KEY} --username ${HUB_ORG} --jwtkeyfile \"${jwt_key_file}\" --setdefaultdevhubusername --instanceurl ${SFDC_HOST}"
+                rc = command "sfdx auth:username:login -u ${username} -p ${password} -a alias kaaladev --setdefaultdevhubusername --instanceurl ${SFDC_HOST}"
         }
             if (rc != 0) { error 'authorization failed' }
 
