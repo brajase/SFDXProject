@@ -35,7 +35,7 @@ pipeline {
             steps {
                 echo 'Deploying....'
                 script{
-                    rc = command "C:\\delMe\\sfdx\\bin\\sfdx force:source:push --targetusername chandar_bala@hotmail.com.shield"
+                    rc = command "C:\\delMe\\sfdx\\bin\\sfdx force:source:deploy -x manifest\\package.xml --targetusername chandar_bala@hotmail.com.shield"
                     if (rc != 0) {
                         error 'Salesforce push failed.'
                     }
