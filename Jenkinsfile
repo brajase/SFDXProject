@@ -10,6 +10,8 @@ pipeline {
                 echo 'Checking out the source code from GIT'
                 checkout scm
             }
+        }
+        stage('Authorize Salesforce Org'){
             steps{
                 echo 'Authorize Salesforce Org...'
                 echo 'SFDX_HOME is '
@@ -21,8 +23,8 @@ pipeline {
                         return result                
                 }
             }
-            
-        }
+        }           
+        
         stage('Test') {
             steps {
                 echo 'Testing..'
