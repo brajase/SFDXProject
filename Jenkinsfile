@@ -10,6 +10,18 @@ pipeline {
                 echo 'Checking out the source code from GIT'
                 checkout scm
             }
+            steps{
+                echo 'Authorize Salesforce Org...'
+                echo 'SFDX_HOME is '
+                echo "${env.SFDX_HOME}"
+                script{                   
+                        rc = bat(returnStatus:true , script: "C:\\delMe\\sfdx\\bin\\sfdx force:auth:jwt:grant --clientid 3MVG9szVa2RxsqBYXscs6zhOGSsPG_Pmr3Ik2ceNuLNQLAIsGwRfJ96YGtZRmbC7W62DhZPzEc3t.4RpkElFq --jwtkeyfile C:\\MyApplications\\Jenkins\\keys\\kaaladev2.PEM --username chandar_bala@hotmail.com.shield --instanceurl https://login.salesforce.com --setdefaultusername")
+                        echo 'Exited script run'
+                        print rc                           
+                        return result                
+                }
+            }
+            
         }
         stage('Test') {
             steps {
@@ -20,16 +32,13 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
-                echo 'SFDX_HOME is '
-                echo "${env.SFDX_HOME}"
-                script{                   
-                        stdout = bat(returnStatus:true , script: "C:\\delMe\\sfdx\\bin\\sfdx force:auth:jwt:grant --clientid 3MVG9szVa2RxsqBYXscs6zhOGSsPG_Pmr3Ik2ceNuLNQLAIsGwRfJ96YGtZRmbC7W62DhZPzEc3t.4RpkElFq --jwtkeyfile C:\\MyApplications\\Jenkins\\keys\\kaaladev2.PEM --username chandar_bala@hotmail.com.shield --instanceurl https://login.salesforce.com --setdefaultusername")
-                        echo 'Exited script run'
-                        result = stdout.readLines().drop(1).join(" ")       
-                        return result
-                
-                }	
-            }
+                script{
+                    rc = command "${toolbelt}/sfdx force:source:push --targetusername chandar_bala@hotmail.com.shield"
+                    if (rc != 0) {
+                        error 'Salesforce push failed.'
+                    }
+                }
+            }            
         }
     }
 }
