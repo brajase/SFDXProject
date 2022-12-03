@@ -55,8 +55,8 @@ pipeline {
         always {
             echo 'Inside always block ..'
         }
-        failure {
-            mail to: chandar_bala@hotmail.com, subject: 'The Pipeline failed :('
+        success {
+            mail to: 'chandar_bala@hotmail.com', subject: 'The Pipeline was successul'
         }
     }
 }
