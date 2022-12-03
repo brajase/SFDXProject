@@ -17,7 +17,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo 'Running ${env.BUILD_ID} on ${env.JENKINS_URL}'
+                sh 'echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"'
                 // when running in multi-branch job, one must issue this command
                 echo 'Checking out the source code from GIT'
                 checkout scm
@@ -26,8 +26,6 @@ pipeline {
         stage('Authorize'){
             steps{
                 echo 'Authorize Salesforce Org...'
-                echo 'SFDX_HOME is '
-                echo "${env.SFDX_HOME}"
                 script{                   
                         rc = bat(returnStatus:true , script: "sfdx force:auth:jwt:grant --clientid 3MVG9szVa2RxsqBYXscs6zhOGSsPG_Pmr3Ik2ceNuLNQLAIsGwRfJ96YGtZRmbC7W62DhZPzEc3t.4RpkElFq --jwtkeyfile C:\\MyApplications\\Jenkins\\keys\\kaaladev2.PEM --username chandar_bala@hotmail.com.shield --instanceurl https://login.salesforce.com --setdefaultusername")
                         echo 'Exited script run'                         
