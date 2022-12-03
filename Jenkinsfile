@@ -5,6 +5,10 @@ pipeline {
         buildDiscarder(logRotator(numToKeepStr: '5')) 
     }
 
+    tools {
+        maven 'sfdx' 
+    }
+
     stages {
         stage('Build without checkout...') {
             steps {
