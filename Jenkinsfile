@@ -23,14 +23,18 @@ pipeline {
                 checkout scm
             }
         }
+        withCredentials([string(credentialsId: '', variable: 'dev.client.id')]) {
         stage('Authorize'){
             steps{
                 echo 'Authorize Salesforce Org...'
+                echo 'Client ID'
+                echo '${dev.client.id}'
                 script{                   
                         rc = bat(returnStatus:true , script: "sfdx force:auth:jwt:grant --clientid 3MVG9szVa2RxsqBYXscs6zhOGSsPG_Pmr3Ik2ceNuLNQLAIsGwRfJ96YGtZRmbC7W62DhZPzEc3t.4RpkElFq --jwtkeyfile C:\\MyApplications\\Jenkins\\keys\\kaaladev2.PEM --username chandar_bala@hotmail.com.shield --instanceurl https://login.salesforce.com --setdefaultusername")
                         echo 'Exited script run'                         
                 }
             }
+        }
         }           
         
         stage('Test') {
@@ -42,8 +46,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
-                echo 'Client ID'
-                echo '${env.DEV_CLIENT_ID}'
+
                 script{
                     if (rc != 0) {
                         error 'Salesforce push failed.'
@@ -57,7 +60,8 @@ pipeline {
             echo 'Inside always block ..'
         }
         success {
-            mail to: 'chandar_bala@hotmail.com', subject: 'The Pipeline was successul', body: 'Shared lib build and deploy was success for master branch.'
+            echo "Build # '${env.BUILD_ID}' was successful"
+            //mail to: 'chandar_bala@hotmail.com', subject: 'The Pipeline was successul', body: 'Shared lib build and deploy was success for master branch.'
         }
     }
 }
