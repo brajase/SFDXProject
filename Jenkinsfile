@@ -56,7 +56,7 @@ pipeline {
             echo 'Inside always block ..'
         }
         success {
-            mail to: 'chandar_bala@hotmail.com', subject: 'The Pipeline was successul'
+            mail to: 'chandar_bala@hotmail.com', subject: 'The Pipeline was successul', body: 'Shared lib build and deploy was success for master branch.'
         }
     }
 }
