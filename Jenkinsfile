@@ -5,17 +5,19 @@ pipeline {
         buildDiscarder(logRotator(numToKeepStr: '5')) 
     }
 
-    tools {      
-        
+    tools {     
         'com.cloudbees.jenkins.plugins.customtools.CustomTool' 'sfdx'
-        
     }
 
     environment {
                 DEV_CLIENT_ID = credentials('dev-client-id')
             }
+
     stages {
+
+    
         stage('Build') {
+
             steps {
                 echo "Running Build # '${env.BUILD_ID}' on '${env.JENKINS_URL}'"
                 // when running in multi-branch job, one must issue this command
@@ -23,19 +25,21 @@ pipeline {
                 checkout scm
             }
         }
-        withCredentials([string(credentialsId: '', variable: 'dev.client.id')]) {
+        
         stage('Authorize'){
+            environment {
+                CLIENT_ID = credentials('dev.client.id')
+            }
             steps{
                 echo 'Authorize Salesforce Org...'
                 echo 'Client ID'
-                echo '${dev.client.id}'
+                echo '${CLIENT_ID}'
                 script{                   
                         rc = bat(returnStatus:true , script: "sfdx force:auth:jwt:grant --clientid 3MVG9szVa2RxsqBYXscs6zhOGSsPG_Pmr3Ik2ceNuLNQLAIsGwRfJ96YGtZRmbC7W62DhZPzEc3t.4RpkElFq --jwtkeyfile C:\\MyApplications\\Jenkins\\keys\\kaaladev2.PEM --username chandar_bala@hotmail.com.shield --instanceurl https://login.salesforce.com --setdefaultusername")
                         echo 'Exited script run'                         
                 }
             }
         }
-        }           
         
         stage('Test') {
             steps {
@@ -43,6 +47,7 @@ pipeline {
                 echo 'Running PMD...'
             }
         }
+        
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
@@ -54,7 +59,9 @@ pipeline {
                 }
             }            
         }
+        
     }
+
     post {
         always {
             echo 'Inside always block ..'
