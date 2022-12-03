@@ -10,7 +10,7 @@ pipeline {
     }
 
     environment {
-                DEV_CLIENT_ID = credentials('dev-client-id')
+                def DEV_CLIENT_ID=credentials('dev-client-id')
             }
 
     stages {
