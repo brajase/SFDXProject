@@ -17,7 +17,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo "Running '${env.BUILD_ID}' on '${env.JENKINS_URL}'"
+                echo "Running Build # '${env.BUILD_ID}' on '${env.JENKINS_URL}'"
                 // when running in multi-branch job, one must issue this command
                 echo 'Checking out the source code from GIT'
                 checkout scm
@@ -43,7 +43,7 @@ pipeline {
             steps {
                 echo 'Deploying....'
                 echo 'Client ID'
-                echo '${DEV_CLIENT_ID}'
+                echo '${env.DEV_CLIENT_ID}'
                 script{
                     if (rc != 0) {
                         error 'Salesforce push failed.'
