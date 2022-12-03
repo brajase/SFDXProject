@@ -6,7 +6,7 @@ pipeline {
     }
 
     tools {
-        sfdx 'sfdx' 
+        CustomTool 'sfdx' 
     }
 
     stages {
