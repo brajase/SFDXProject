@@ -5,9 +5,9 @@ pipeline {
         buildDiscarder(logRotator(numToKeepStr: '5')) 
     }
 
-    tools {
+    tools {      
         
-        'com.cloudbees.jenkins.plugins.customtools.CustomTool' 'sfdx'
+        'com.cloudbees.jenkins.plugins.customtools.CustomTool' 'pmd'
     }
 
     stages {
