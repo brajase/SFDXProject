@@ -6,7 +6,7 @@ pipeline {
     }
 
     tools {
-        maven 'sfdx' 
+        sfdx 'sfdx' 
     }
 
     stages {
