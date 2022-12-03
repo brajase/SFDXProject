@@ -1,9 +1,12 @@
 pipeline {
     agent any
 
-   
+    options { 
+        buildDiscarder(logRotator(numToKeepStr: '5')) 
+    }
+
     stages {
-        stage('Build') {
+        stage('Build without checkout...') {
             steps {
                 echo 'Building..'
                 // when running in multi-branch job, one must issue this command
