@@ -17,7 +17,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"'
+                echo "Running '${env.BUILD_ID}' on '${env.JENKINS_URL}'"
                 // when running in multi-branch job, one must issue this command
                 echo 'Checking out the source code from GIT'
                 checkout scm
