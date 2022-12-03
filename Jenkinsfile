@@ -6,7 +6,8 @@ pipeline {
     }
 
     tools {
-        com.cloudbees.jenkins.plugins.customtools.CustomTool 'sfdx' 
+        tool name: 'sfdx', 
+        type: 'com.cloudbees.jenkins.plugins.customtools.CustomTool'
     }
 
     stages {
