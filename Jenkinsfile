@@ -28,14 +28,14 @@ pipeline {
         }
         
         stage('Authorize'){
-           // environment {
-           //     CLIENT_ID = credentials('dev.client.id')
-           // }
+           environment {
+                CLIENT_ID = credentials('dev.client.id')
+           }
             steps{
                 echo 'Authorize Salesforce Org...'
                 echo 'Client ID'
                 echo '${DEV_CLIENT_ID}'
-                echo credentials('dev-client-id')
+                echo '$CLIENT_ID'
                 script{                   
                         rc = bat(returnStatus:true , script: "sfdx force:auth:jwt:grant --clientid 3MVG9szVa2RxsqBYXscs6zhOGSsPG_Pmr3Ik2ceNuLNQLAIsGwRfJ96YGtZRmbC7W62DhZPzEc3t.4RpkElFq --jwtkeyfile C:\\MyApplications\\Jenkins\\keys\\kaaladev2.PEM --username chandar_bala@hotmail.com.shield --instanceurl https://login.salesforce.com --setdefaultusername")
                         echo 'Exited script run'                         
