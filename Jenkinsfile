@@ -10,8 +10,8 @@ pipeline {
     }
 
     environment {
-                def DEV_CLIENT_ID=credentials('dev-client-id')
-                
+                 def USER_NAME=chandar_bala@hotmail.com.shield
+                 def INSTANCE_URL=https://login.salesforce.com              
             }
 
     stages {
@@ -33,12 +33,9 @@ pipeline {
            }
             steps{
                 echo 'Authorize Salesforce Org...'
-                echo 'Client ID'
-                echo "{DEV_CLIENT_ID}"
-                echo "${CLIENT_ID}"
                 script{                   
                         //rc = bat(returnStatus:true , script: "sfdx force:auth:jwt:grant --clientid 3MVG9szVa2RxsqBYXscs6zhOGSsPG_Pmr3Ik2ceNuLNQLAIsGwRfJ96YGtZRmbC7W62DhZPzEc3t.4RpkElFq --jwtkeyfile C:\\MyApplications\\Jenkins\\keys\\kaaladev2.PEM --username chandar_bala@hotmail.com.shield --instanceurl https://login.salesforce.com --setdefaultusername")
-                        rc = bat(returnStatus:true , script: "sfdx force:auth:jwt:grant --clientid $CLIENT_ID --jwtkeyfile C:\\MyApplications\\Jenkins\\keys\\kaaladev2.PEM --username chandar_bala@hotmail.com.shield --instanceurl https://login.salesforce.com --setdefaultusername")
+                        rc = bat(returnStatus:true , script: "sfdx force:auth:jwt:grant --clientid $CLIENT_ID --jwtkeyfile C:\\MyApplications\\Jenkins\\keys\\kaaladev2.PEM --username $USER_NAME --instanceurl $INSTANCE_URL --setdefaultusername")
                         echo 'Exited script run'                         
                 }
             }
