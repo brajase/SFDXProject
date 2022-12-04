@@ -53,7 +53,7 @@ pipeline {
                 echo 'Deploying....'
 
                 script{
-                    rc= bat(returnStdout:true, script: "sfdx force:source:deploy -x manifest/package.xml")
+                    rc= bat(returnStatus:true, script: "sfdx force:source:deploy -x manifest/package.xml")
                     if (rc != 0) {
                         error 'Salesforce deployment failed.'
                     }
@@ -64,12 +64,16 @@ pipeline {
     }
 
     post {
-        always {
-            echo 'Inside always block ..'
+        always {S
+            echo 'Deleting workspace ..'
+            deleteDir()
         }
         success {
             echo "Build # '${env.BUILD_ID}' was successful"
             //mail to: 'chandar_bala@hotmail.com', subject: 'The Pipeline was successul', body: 'Shared lib build and deploy was success for master branch.'
+        }
+        failure {
+            echo "Build # '${env.BUILD_ID}' failed!"
         }
     }
 }
