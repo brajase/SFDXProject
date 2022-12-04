@@ -10,8 +10,8 @@ pipeline {
     }
 
     environment {
-                 def USER_NAME=chandar_bala@hotmail.com.shield
-                 def INSTANCE_URL=https://login.salesforce.com              
+                 def USER_NAME='chandar_bala@hotmail.com.shield'
+                 def INSTANCE_URL='https://login.salesforce.com'              
             }
 
     stages {
