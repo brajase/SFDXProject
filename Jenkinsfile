@@ -53,8 +53,9 @@ pipeline {
                 echo 'Deploying....'
 
                 script{
+                    rc= bat(returnStdout:true, script: "sfdx force:source:deploy -x manifest/package.xml")
                     if (rc != 0) {
-                        error 'Salesforce push failed.'
+                        error 'Salesforce deployment failed.'
                     }
                 }
             }            
