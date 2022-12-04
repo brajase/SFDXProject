@@ -65,7 +65,7 @@ pipeline {
 
     post {
         always {
-            echo 'Deleting workspace ..'
+            echo 'Deleting workspace ..' 
             deleteDir()
         }
         success {
