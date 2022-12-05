@@ -47,19 +47,19 @@ pipeline {
         }
         
         stage('Deploy') {
+            when {
+                branch 'master'
+                environment name: 'DEPLOY_TO', value: 'production'                
+            }
             steps {
-                echo 'Deploying....'
-
-                when { 
-                branch 'master' 
-                echo 'Branch is master, executing deploy action..'    
+                echo 'Deploying....'                    
                 script{
                     rc= bat(returnStatus:true, script: "sfdx force:source:deploy -x manifest/package.xml")
                     if (rc != 0) {
                         error 'Salesforce deployment failed.'
                     }
                 }
-                } //End of When block
+
             }            
         }
         
