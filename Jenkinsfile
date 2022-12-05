@@ -49,7 +49,7 @@ pipeline {
         stage('Deploy') {
             when {
                 branch 'master'
-                environment name: 'DEPLOY_TO', value: 'production'                
+                //environment name: 'DEPLOY_TO', value: 'production'                
             }
             steps {
                 echo 'Deploying....'                    
