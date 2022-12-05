@@ -14,6 +14,10 @@ pipeline {
                  def INSTANCE_URL='https://login.salesforce.com' 
             }
 
+    triggers { 
+        pollSCM('* * * * *')
+    }
+
     stages {
         stage('Build') {
 
@@ -68,7 +72,7 @@ pipeline {
     post {
         always {
             echo 'Deleting workspace ..' 
-            deleteDir()
+            //deleteDir()
         }
         success {
             echo "Build # '${env.BUILD_ID}' was successful"
