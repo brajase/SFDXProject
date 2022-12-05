@@ -9,21 +9,12 @@ pipeline {
         'com.cloudbees.jenkins.plugins.customtools.CustomTool' 'sfdx'
     }
 
-    environment {
-        if (env.BRANCH_NAME == 'master') {
-                echo 'Master pipeline started ...'              
-                 def USER_NAME='chandar_bala@hotmail.com.shield'
+    environment {        
+                  def USER_NAME='chandar_bala@hotmail.com.shield'
                  def INSTANCE_URL='https://login.salesforce.com' 
-                            
-            }
-            else {
-                echo 'Non-Master pipleline started ...'
-
             }
 
     stages {
-       
-    
         stage('Build') {
 
             steps {
@@ -59,12 +50,16 @@ pipeline {
             steps {
                 echo 'Deploying....'
 
+                when { 
+                branch 'master' 
+                echo 'Branch is master, executing deploy action..'    
                 script{
                     rc= bat(returnStatus:true, script: "sfdx force:source:deploy -x manifest/package.xml")
                     if (rc != 0) {
                         error 'Salesforce deployment failed.'
                     }
                 }
+                } //End of When block
             }            
         }
         
