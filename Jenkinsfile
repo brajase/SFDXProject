@@ -10,8 +10,15 @@ pipeline {
     }
 
     environment {
+        if (env.BRANCH_NAME == 'master') {
+                echo 'Master pipeline started ...'              
                  def USER_NAME='chandar_bala@hotmail.com.shield'
-                 def INSTANCE_URL='https://login.salesforce.com'              
+                 def INSTANCE_URL='https://login.salesforce.com' 
+                            
+            }
+            else {
+                echo 'Non-Master pipleline started ...'
+
             }
 
     stages {
