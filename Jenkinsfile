@@ -3,6 +3,7 @@ pipeline {
 
     options { 
         buildDiscarder(logRotator(numToKeepStr: '5')) 
+        timeout(time: 1, unit: 'HOURS') 
     }
 
     tools {     
@@ -10,8 +11,8 @@ pipeline {
     }
 
     environment {        
-                  def USER_NAME='chandar_bala@hotmail.com.shield'
-                 def INSTANCE_URL='https://login.salesforce.com' 
+                def USER_NAME='chandar_bala@hotmail.com.shield'
+                def INSTANCE_URL='https://login.salesforce.com' 
             }
 
     triggers { 
@@ -32,12 +33,14 @@ pipeline {
         stage('Authorize'){
            environment {
                 CLIENT_ID = credentials('dev.client.id')
+                CLIENT_SECRET = credentials('a1304981-ba49-49c1-95a3-8ffc6e027449')
            }
             steps{
                 echo 'Authorize Salesforce Org...'
                 script{                   
                         //rc = bat(returnStatus:true , script: "sfdx force:auth:jwt:grant --clientid 3MVG9szVa2RxsqBYXscs6zhOGSsPG_Pmr3Ik2ceNuLNQLAIsGwRfJ96YGtZRmbC7W62DhZPzEc3t.4RpkElFq --jwtkeyfile C:\\MyApplications\\Jenkins\\keys\\kaaladev2.PEM --username chandar_bala@hotmail.com.shield --instanceurl https://login.salesforce.com --setdefaultusername")
-                        rc = bat(returnStatus:true , script: "sfdx force:auth:jwt:grant --clientid $CLIENT_ID --jwtkeyfile C:\\MyApplications\\Jenkins\\keys\\kaaladev2.PEM --username $USER_NAME --instanceurl $INSTANCE_URL --setdefaultusername")
+                        //rc = bat(returnStatus:true , script: "sfdx force:auth:jwt:grant --clientid $CLIENT_ID --jwtkeyfile C:\\MyApplications\\Jenkins\\keys\\kaaladev2.PEM --username $USER_NAME --instanceurl $INSTANCE_URL --setdefaultusername")
+                        rc = bat(returnStatus:true , script: "sfdx force:auth:jwt:grant --clientid $CLIENT_ID --jwtkeyfile $CLIENT_SECRET --username $USER_NAME --instanceurl $INSTANCE_URL --setdefaultusername")
                         echo 'Exited script run'                         
                 }
             }
