@@ -13,6 +13,7 @@ pipeline {
     environment {        
                 def USER_NAME='chandar_bala@hotmail.com.shield'
                 def INSTANCE_URL='https://login.salesforce.com' 
+                def TEST_LEVEL='RunLocalTests'
             }
 
     triggers { 
@@ -38,9 +39,9 @@ pipeline {
             steps{
                 echo 'Authorize Salesforce Org...'
                 script{                   
-                        //rc = bat(returnStatus:true , script: "sfdx force:auth:jwt:grant --clientid 3MVG9szVa2RxsqBYXscs6zhOGSsPG_Pmr3Ik2ceNuLNQLAIsGwRfJ96YGtZRmbC7W62DhZPzEc3t.4RpkElFq --jwtkeyfile C:\\MyApplications\\Jenkins\\keys\\kaaladev2.PEM --username chandar_bala@hotmail.com.shield --instanceurl https://login.salesforce.com --setdefaultusername")
+                       
                         //rc = bat(returnStatus:true , script: "sfdx force:auth:jwt:grant --clientid $CLIENT_ID --jwtkeyfile C:\\MyApplications\\Jenkins\\keys\\kaaladev2.PEM --username $USER_NAME --instanceurl $INSTANCE_URL --setdefaultusername")
-                        rc = bat(returnStatus:true , script: 'sfdx force:auth:jwt:grant --clientid $CLIENT_ID --jwtkeyfile $CLIENT_SECRET --username "${USER_NAME}" --instanceurl "${INSTANCE_URL}" --setdefaultusername')
+                        rc = bat(returnStatus:true , script: "sfdx force:auth:jwt:grant --clientid $CLIENT_ID --jwtkeyfile $CLIENT_SECRET --username $USER_NAME --instanceurl $INSTANCE_URL --setdefaultusername")
                         echo 'Exited script run'                         
                 }
             }
@@ -69,6 +70,17 @@ pipeline {
 
             }            
         }
+
+            // -------------------------------------------------------------------------
+            // Run unit tests
+            // -------------------------------------------------------------------------
+
+        stage('Run Tests In Sandbox Org') {
+            rc = command "$sfdx force:apex:test:run --targetusername ciorg --wait 10 --resultformat tap --codecoverage --testlevel $TEST_LEVEL"
+            if (rc != 0) {
+                error 'Salesforce unit test run in test scratch org failed.'
+            }
+        }
         
     }
 
@@ -84,5 +96,13 @@ pipeline {
         failure {
             echo "Build # '${env.BUILD_ID}' failed!"
         }
+    }
+}
+
+def command(script) {
+    if (isUnix()) {
+        return sh(returnStatus: true, script: script);
+    } else {
+        return bat(returnStatus: true, script: script);
     }
 }
