@@ -76,9 +76,14 @@ pipeline {
             // -------------------------------------------------------------------------
 
         stage('Run Tests In Sandbox Org') {
-            rc = command "$sfdx force:apex:test:run --targetusername ciorg --wait 10 --resultformat tap --codecoverage --testlevel $TEST_LEVEL"
-            if (rc != 0) {
-                error 'Salesforce unit test run in test scratch org failed.'
+            steps {
+                echo 'Run unit tests in Saleforce Org'
+                script {
+                    rc = command "$sfdx force:apex:test:run --targetusername ciorg --wait 10 --resultformat tap --codecoverage --testlevel $TEST_LEVEL"
+                    if (rc != 0) {
+                        error 'Salesforce unit test run in test scratch org failed.'
+                    }
+                }
             }
         }
         
