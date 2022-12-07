@@ -27,7 +27,8 @@ pipeline {
                 echo "Running Build # '${env.BUILD_ID}' on '${env.JENKINS_URL}'"
                 // when running in multi-branch job, one must issue this command
                 echo 'Checking out the source code from GIT'
-                checkout scm
+                //checkout scm
+               checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/brajase/SFDXProject.git']]])
             }
         }
         
