@@ -27,8 +27,8 @@ pipeline {
                 echo "Running Build # '${env.BUILD_ID}' on '${env.JENKINS_URL}'"
                 // when running in multi-branch job, one must issue this command
                 echo 'Checking out the source code from GIT'
-                //checkout scm
-               checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/brajase/SFDXProject.git']]])
+                checkout scm
+              // checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/brajase/SFDXProject.git']]])
             }
         }
         
@@ -38,11 +38,13 @@ pipeline {
                 CLIENT_SECRET = credentials('a1304981-ba49-49c1-95a3-8ffc6e027449')
            }
             steps{
+
                 echo 'Authorize Salesforce Org...'
                 script{                   
                        
                         //rc = bat(returnStatus:true , script: "sfdx force:auth:jwt:grant --clientid $CLIENT_ID --jwtkeyfile C:\\MyApplications\\Jenkins\\keys\\kaaladev2.PEM --username $USER_NAME --instanceurl $INSTANCE_URL --setdefaultusername")
-                        rc = bat(returnStatus:true , script: "sfdx force:auth:jwt:grant --clientid $CLIENT_ID --jwtkeyfile $CLIENT_SECRET --username $USER_NAME --instanceurl $INSTANCE_URL --setdefaultusername")
+                       // rc = bat(returnStatus:true , script: "sfdx force:auth:jwt:grant --clientid $CLIENT_ID --jwtkeyfile $CLIENT_SECRET --username $USER_NAME --instanceurl $INSTANCE_URL --setdefaultusername")
+                        rc= command "sfdx force:auth:jwt:grant --clientid $CLIENT_ID --jwtkeyfile $CLIENT_SECRET --username $USER_NAME --instanceurl $INSTANCE_URL --setdefaultusername"
                         echo 'Exited script run'                         
                 }
             }
